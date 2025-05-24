@@ -5,8 +5,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -O2 -fPIC
 LDFLAGS =
 
-SRCS = $(wildcard $(srcdir)/src/**/*.c)
-HEADERS = $(wildcard $(srcdir)/src/**/*.h)
+SRCS = src/conf.tui.c src/confirm.term.c
 OBJS = $(addprefix obj/,$(patsubst $(srcdir)/src/%,obj/%,$(patsubst %.c,%.o,$(notdir $(SRCS)))))
 
 STATIC_LIB = lib/libscrnc.a
