@@ -1,0 +1,2 @@
+#!/bin/env bash
+find . -name "*.c" -exec clang-format -i {} \;

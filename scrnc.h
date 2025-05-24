@@ -7,12 +7,13 @@ int s_confirm_term(char *, int def);
 
 /* tui */
 
-typedef struct {
+typedef struct
+{
   char **options;
   int *sets;
   int length;
 } s_ctx;
 
-void s_show_menu(s_ctx*);
+void s_show_menu(s_ctx *);
 
 #endif // scrn_h
