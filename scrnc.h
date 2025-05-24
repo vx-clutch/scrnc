@@ -7,8 +7,12 @@ int s_confirm_term(char *, int def);
 
 /* tui */
 
-typedef 
+typedef struct {
+  char **options;
+  int *sets;
+  int length;
+} s_ctx;
 
-int s_gen_options();
+void s_show_menu(s_ctx*);
 
 #endif // scrn_h
