@@ -1,56 +1,29 @@
-srcdir = .
-bindir = $(exec_prefix)/bin
-
+ATARGET = lib/libscrnc.a
+STARGET = lib/libscrnc.so
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -fPIC
-LDFLAGS =
+CFLAGS = -Wall -Wextra -O2 -fPIC -I.
 
-SRCS = src/conf.tui.c src/confirm.term.c
+SRCS = $(wildcard src/*.c)
 OBJS = $(addprefix obj/,$(patsubst $(srcdir)/src/%,obj/%,$(patsubst %.c,%.o,$(notdir $(SRCS)))))
 
-STATIC_LIB = lib/libscrnc.a
-SHARED_LIB = lib/libscrnc.so
-ALL_LIBS = $(STATIC_LIB) $(SHARED_LIB)
+.PHONY: all clean lib
 
--include config.mak
+lib: $(clean)
+	mkdir $@
 
-ifeq ($(wildcard config.mak),)
-all:
-	@echo "File config.mak not found, run configure"
-	@exit 1
-else
+obj: $(clean)
+	mkdir $@
 
-all: clean lib obj $(ALL_LIBS)
+all: $(ATARGET) $(STARGET)
 
-obj:
-	mkdir -p $@
-lib:
-	mkdir -p $@
-
-obj/%.o: $(srcdir)/src/**/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(STATIC_LIB): $(OBJS)
+$(ATARGET): lib $(OBJS)
 	ar rcs $@ $^
 
-$(SHARED_LIB): $(OBJS)
-	$(CC) -shared $(CFLAGS) -o $@ $(OBJS)
+$(STARGET): lib $(OBJS)
+	$(CC) -shared -o $@ $^
 
-endif
+%.o: obj %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-install:
-	@echo "NOT IMPL"
-	exit 1
-
-uninstall:
-	@echo "NOT IMPL"
-	exit 1
-
-clean:
-	rm -rf obj lib
-
-dist-clean: clean
-	rm config.mak
-
-.PHONY: all clean dist-clean install uninstall
-
+clean: lib obj
+	rm -rf $(OBJS) $(STARGET) $(ATARGET) lib obj
