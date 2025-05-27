@@ -19,18 +19,12 @@ static void set_raw_mode(int enable)
       new.c_lflag &= ~(ICANON | ECHO);
       tcsetattr(STDIN_FILENO, TCSANOW, &new);
     }
-  else
-    {
-      tcsetattr(STDIN_FILENO, TCSANOW, &old);
-    }
+  else { tcsetattr(STDIN_FILENO, TCSANOW, &old); }
 }
 
 static void clear_screen() { write(STDOUT_FILENO, "\033[2J\033[H", 7); }
 
-static void move_cursor(int row, int col)
-{
-  printf(CSI "%d;%dH", row, col);
-}
+static void move_cursor(int row, int col) { printf(CSI "%d;%dH", row, col); }
 
 static void render_menu(s_ctx *ctx, int selected)
 {
@@ -51,24 +45,20 @@ static void render_menu(s_ctx *ctx, int selected)
   for(int i = 0; i < menu_width - 2; i++) putchar('─');
   printf("┤\n");
 
-  // Options
   for(int i = 0; i < ctx->length; i++)
     {
       char line[menu_width + 1];
-      snprintf(line, sizeof(line), "[%c] %s", ctx->sets[i] ? '*' : ' ', ctx->options[i]);
+      snprintf(line, sizeof(line), "[%c] %s", ctx->sets[i] ? '*' : ' ',
+               ctx->options[i]);
 
-      // Truncate or pad line
       line[menu_width - 4] = '\0';
 
       printf("│ ");
       if(i == selected)
         {
-          printf(ESC "[7m%-*s" ESC "[0m", menu_width - 4, line); // Reverse video
+          printf(ESC "[7m%-*s" ESC "[0m", menu_width - 4, line);
         }
-      else
-        {
-          printf("%-*s", menu_width - 4, line);
-        }
+      else { printf("%-*s", menu_width - 4, line); }
       printf(" │\n");
     }
 
@@ -78,7 +68,8 @@ static void render_menu(s_ctx *ctx, int selected)
   printf("┘\n");
 
   // Footer
-  printf("\nUse ↑/↓ or j/k to navigate, Space/t to toggle, Enter to confirm\n");
+  printf(
+    "\nUse ↑/↓ or j/k to navigate, Space/t to toggle, Enter to confirm\n");
 }
 
 void s_show_menu(s_ctx *ctx)
