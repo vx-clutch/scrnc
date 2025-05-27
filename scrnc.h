@@ -1,9 +1,11 @@
 #ifndef SCRNC_H
 #define SCRNC_H
 
+void help();
+
 /* term */
 
-int s_confirm_term(char *, int def);
+int s_confirm_term(char *, int);
 
 /* tui */
 

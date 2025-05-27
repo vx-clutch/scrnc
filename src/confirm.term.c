@@ -2,9 +2,9 @@
 #include <assert.h>
 #include <stdio.h>
 
-int s_confirm_term(char *src, int def)
+int s_confirm_term(char *src, int default_)
 {
-  if(def)
+  if(default_)
     {
       printf("%s (Y/n)", src);
       char ch = getchar();
