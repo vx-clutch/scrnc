@@ -1,21 +1,10 @@
 #ifndef SCRNC_H
 #define SCRNC_H
 
+/* Print help text */
 void help();
 
-/* term */
-
+/* Interactive confirm in the terminal */
 int s_confirm_term(char *, int);
-
-/* tui */
-
-typedef struct
-{
-  char **options;
-  int *sets;
-  int length;
-} s_ctx;
-
-void s_show_menu(s_ctx *);
 
 #endif // scrn_h
